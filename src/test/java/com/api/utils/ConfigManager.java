@@ -19,7 +19,6 @@ public class ConfigManager {
 
 		env = System.getProperty("env", "qa");
 		env = env.toLowerCase().trim();
-		System.out.println("Running Tests in Env " + env);
 		switch (env) {
 		case "dev" -> path = "config/config.dev.properties";
 		case "qa" -> path = "config/config.qa.properties";
