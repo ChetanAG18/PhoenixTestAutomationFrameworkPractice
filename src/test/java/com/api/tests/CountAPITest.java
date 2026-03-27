@@ -1,33 +1,32 @@
 package com.api.tests;
 
-import static org.hamcrest.Matchers.*;
+import static com.api.constants.Role.FD;
+import static com.api.utils.SpecUtil.requestSpec;
+import static com.api.utils.SpecUtil.requestSpecWithAuth;
+import static com.api.utils.SpecUtil.responseSpec_OK;
+import static com.api.utils.SpecUtil.responseSpec_TEXT;
+import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.blankOrNullString;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+
 import org.testng.annotations.Test;
-
-import static com.api.constants.Role.*;
-import com.api.utils.AuthTokenProvider;
-import com.api.utils.ConfigManager;
-
-import static io.restassured.module.jsv.JsonSchemaValidator.*;
-
-import static io.restassured.RestAssured.*;
 
 public class CountAPITest {
 
 	@Test
 	public void verifyCountAPIResponse() {
 		given()
-			.baseUri(ConfigManager.getProperty("BASE_URI"))
-		.and()
-			.header("Authorization", AuthTokenProvider.getToken(FD))
-			.log().uri()
-			.log().method()
-			.log().headers()
+			.spec(requestSpecWithAuth(FD))
 		.when()
 			.get("/dashboard/count")
 		.then()
-			.log().all()
-			.statusCode(200)
-			.time(lessThan(1000L))
+			.spec(responseSpec_OK())
 			.body("message", equalTo("Success"))
 			.body("data", notNullValue())
 			.body("data.size()", equalTo(3))
@@ -40,16 +39,11 @@ public class CountAPITest {
 	@Test
 	public void countAPITest_MissingAuthToken() {
 		given()
-			.baseUri(ConfigManager.getProperty("BASE_URI"))
-		.and()
-			.log().uri()
-			.log().method()
-			.log().headers()
+			.spec(requestSpec())
 		.when()
 			.get("/dashboard/count")
 		.then()
-			.log().all()
-		    .statusCode(401);
+			.spec(responseSpec_TEXT(401));
 	}
 	
 	
