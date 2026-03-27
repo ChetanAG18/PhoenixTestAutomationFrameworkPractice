@@ -2,7 +2,7 @@ package com.api.utils;
 
 import static io.restassured.RestAssured.*;
 
-import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.*;
 
 import static com.api.constants.Role.*;
 
@@ -12,6 +12,10 @@ import com.api.pojo.UserCredentials;
 import io.restassured.http.ContentType;
 
 public class AuthTokenProvider {
+	
+	private AuthTokenProvider() {
+		
+	}
 
 	public static String getToken(Role role) {
 		
@@ -33,7 +37,7 @@ public class AuthTokenProvider {
 		.when().post("login")
 		.then().log().ifValidationFails()
 		.statusCode(200)
-		.body("message", Matchers.equalTo("Success"))
+		.body("message", equalTo("Success"))
 		.extract().body().jsonPath().getString("data.token");
 		
 		return token;
