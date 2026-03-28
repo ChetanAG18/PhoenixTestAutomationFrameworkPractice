@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.*;
 import static com.api.constants.Role.*;
 
 import com.api.constants.Role;
-import com.api.pojo.UserCredentials;
+import com.api.request.models.UserCredentials;
 
 import io.restassured.http.ContentType;
 

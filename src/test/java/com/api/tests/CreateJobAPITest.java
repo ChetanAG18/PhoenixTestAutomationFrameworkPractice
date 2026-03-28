@@ -13,11 +13,11 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.api.pojo.CreateJobPayload;
-import com.api.pojo.Customer;
-import com.api.pojo.CustomerAddress;
-import com.api.pojo.CustomerProduct;
-import com.api.pojo.Problems;
+import com.api.request.models.CreateJobPayload;
+import com.api.request.models.Customer;
+import com.api.request.models.CustomerAddress;
+import com.api.request.models.CustomerProduct;
+import com.api.request.models.Problems;
 
 public class CreateJobAPITest {
 	
