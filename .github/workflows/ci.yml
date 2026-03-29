@@ -2,7 +2,7 @@ name: Phoenix Test Automation Workflow
 
 on:
   push:
-    branches: [ "master", "feature/r7-create-job-api" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
   schedule:
