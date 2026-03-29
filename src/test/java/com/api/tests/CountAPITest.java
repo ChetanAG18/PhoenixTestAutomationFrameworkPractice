@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 
 public class CountAPITest {
 
-	@Test
+	@Test(description = "Verify if the count API response is giving correct response", groups = {"api", "regression", "smoke"})
 	public void verifyCountAPIResponse() {
 		given()
 			.spec(requestSpecWithAuth(FD))
@@ -36,7 +36,7 @@ public class CountAPITest {
 			.body(matchesJsonSchemaInClasspath("responseSchema/CountAPIResponseSchema.json"));
 	}
 	
-	@Test
+	@Test(description = "Verify if the count API response is giving correct status code for invalid token", groups = {"api", "negative", "regression", "smoke"})
 	public void countAPITest_MissingAuthToken() {
 		given()
 			.spec(requestSpec())

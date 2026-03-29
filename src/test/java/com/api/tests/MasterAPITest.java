@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 public class MasterAPITest {
 	
-	@Test
+	@Test(description = "Verify if the master API response is giving correct response", groups = {"api", "regression", "smoke"})
 	public void masterAPITest() {
 		given()
 			.spec(requestSpecWithAuth(FD))
@@ -37,7 +37,7 @@ public class MasterAPITest {
 			
 	}
 	
-	@Test
+	@Test(description = "Verify if the master API response is giving correct status code for invalid token", groups = {"api", "negative", "regression", "smoke"})
 	public void invalidTokenMasterAPITest() {
 		given()
 			.spec(requestSpecWithAuth(FD))
