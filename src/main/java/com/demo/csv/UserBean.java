@@ -1,16 +1,16 @@
 package com.demo.csv;
 
-public class UserPojo {
+public class UserBean {
 	private String username;
 	private String password;
 
-	public UserPojo(String username, String password) {
+	public UserBean(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
 	}
 	
-	public UserPojo() {
+	public UserBean() {
 		
 	}
 
@@ -32,7 +32,7 @@ public class UserPojo {
 
 	@Override
 	public String toString() {
-		return "UserPojo [username=" + username + ", password=" + password + "]";
+		return "UserBean [username=" + username + ", password=" + password + "]";
 	}
 
 }
