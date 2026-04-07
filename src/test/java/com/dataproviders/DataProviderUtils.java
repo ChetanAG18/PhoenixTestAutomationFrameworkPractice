@@ -7,9 +7,11 @@ import java.util.List;
 import org.testng.annotations.DataProvider;
 
 import com.api.request.models.CreateJobPayload;
+import com.api.request.models.UserCredentials;
 import com.api.utils.CSVReaderUtil;
 import com.api.utils.CreateJobBeanMapper;
 import com.api.utils.FakerDataGenerator;
+import com.api.utils.JsonReaderUtil;
 import com.dataproviders.api.bean.CreateJobBean;
 import com.dataproviders.api.bean.UserBean;
 
@@ -43,6 +45,11 @@ public class DataProviderUtils {
 		int fakerCountInt = Integer.parseInt(fakerCount);
 		Iterator<CreateJobPayload> payloadIterator = FakerDataGenerator.generateFakeCreateJobData(fakerCountInt);
 		return payloadIterator;
+	}
+	
+	@DataProvider(name = "LoginAPIJSONDataProvider", parallel = true)
+	public static Iterator<UserCredentials> loginAPIJSONDataProvider() {
+		return JsonReaderUtil.loadJSON("testData/LoginAPITestData.json", UserCredentials[].class);
 	}
 
 }
