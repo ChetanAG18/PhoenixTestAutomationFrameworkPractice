@@ -20,7 +20,7 @@ on:
       suiteXmlFile:
         description: "Select testng xml file"
         type: choice
-        options: [testng.xml,smoke.xml,regression.xml]
+        options: [testng.xml,smoke.xml,regression.xml,testng-datadriven.xml]
         default: testng.xml
         required: true
 
