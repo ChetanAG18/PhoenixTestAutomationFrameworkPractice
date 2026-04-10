@@ -9,7 +9,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.testng.annotations.Test;
 
 import com.api.request.models.UserCredentials;
-import com.dataproviders.api.bean.UserBean;
 
 public class LoginAPIJSONDataDrivenTest {
 
