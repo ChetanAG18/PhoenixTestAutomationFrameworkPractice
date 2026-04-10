@@ -12,12 +12,12 @@ import org.testng.annotations.Test;
 
 import com.api.request.models.CreateJobPayload;
 
-public class CreateJobAPIDataDrivenTest {
+public class CreateJobAPIExcelDataDrivenTest {
 	
 	@Test(description = "Verify if the create job api able to create Inwarranty job",
-			groups = {"api", "regression", "datadriven", "csv"},
+			groups = {"api", "regression", "datadriven", "excel"},
 			dataProviderClass = com.dataproviders.DataProviderUtils.class,
-			dataProvider = "CreateJobAPIDataProvider")
+			dataProvider = "CreateJobAPIExcelDataProvider")
 	public void createJobAPITest(CreateJobPayload createJobPayload) {
 		
 		
