@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.equalTo;
 import org.testng.annotations.Test;
 
 import com.api.request.models.UserCredentials;
+import com.dataproviders.api.bean.UserBean;
 
 public class LoginAPIExcelDataDrivenTest {
 
@@ -17,10 +18,10 @@ public class LoginAPIExcelDataDrivenTest {
 			groups = {"api", "regression", "datadriven",  "json"},
 			dataProviderClass = com.dataproviders.DataProviderUtils.class,
 			dataProvider = "LoginAPIExcelDataProvider")
-	public void loginAPITest(UserCredentials userCredentials) {
+	public void loginAPITest(UserBean UserBean) {
 		
 		given()
-			.spec(requestSpec(userCredentials))
+			.spec(requestSpec(UserBean))
 		.when()
 			.post("/login")
 		.then()
