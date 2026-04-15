@@ -13,33 +13,34 @@ import com.api.utils.CreateJobBeanMapper;
 import com.api.utils.ExcelReaderUtil;
 import com.api.utils.FakerDataGenerator;
 import com.api.utils.JsonReaderUtil;
+import com.database.dao.CreateJobPayloadDataDao;
 import com.dataproviders.api.bean.CreateJobBean;
 import com.dataproviders.api.bean.UserBean;
 
 public class DataProviderUtils {
-	
+
 	@DataProvider(name = "LoginAPIDataProvider", parallel = true)
 	public static Iterator<UserBean> loginAPIDataProvider() {
 		return CSVReaderUtil.loadCSV("testData/LoginCreds.csv", UserBean.class);
 	}
-	
-	
+
 	@DataProvider(name = "CreateJobAPIDataProvider", parallel = true)
 	public static Iterator<CreateJobPayload> createJobAPIDataProvider() {
-		Iterator<CreateJobBean> createJobBeanIterator = CSVReaderUtil.loadCSV("testData/CreateJobData.csv", CreateJobBean.class);
-		
+		Iterator<CreateJobBean> createJobBeanIterator = CSVReaderUtil.loadCSV("testData/CreateJobData.csv",
+				CreateJobBean.class);
+
 		List<CreateJobPayload> createJobPayloadList = new ArrayList<CreateJobPayload>();
 		CreateJobBean tempBean;
 		CreateJobPayload tempPayload;
-		while(createJobBeanIterator.hasNext()) {
+		while (createJobBeanIterator.hasNext()) {
 			tempBean = createJobBeanIterator.next();
 			tempPayload = CreateJobBeanMapper.mapper(tempBean);
 			createJobPayloadList.add(tempPayload);
 		}
-		
+
 		return createJobPayloadList.iterator();
 	}
-	
+
 	@DataProvider(name = "CreateJobAPIFakerDataProvider", parallel = true)
 	public static Iterator<CreateJobPayload> createJobAPIFakerDataProvider() {
 		String fakerCount = System.getProperty("fakerCount", "5");
@@ -47,36 +48,49 @@ public class DataProviderUtils {
 		Iterator<CreateJobPayload> payloadIterator = FakerDataGenerator.generateFakeCreateJobData(fakerCountInt);
 		return payloadIterator;
 	}
-	
+
 	@DataProvider(name = "LoginAPIJSONDataProvider", parallel = true)
 	public static Iterator<UserCredentials> loginAPIJSONDataProvider() {
 		return JsonReaderUtil.loadJSON("testData/LoginAPITestData.json", UserCredentials[].class);
 	}
-	
+
 	@DataProvider(name = "CreateJobAPIJSONDataProvider", parallel = true)
 	public static Iterator<CreateJobPayload> createJobAPIJSONDataProvider() {
 		return JsonReaderUtil.loadJSON("testData/CreateJobAPITestData.json", CreateJobPayload[].class);
 	}
-	
+
 	@DataProvider(name = "LoginAPIExcelDataProvider", parallel = true)
 	public static Iterator<UserBean> loginAPIExcelDataProvider() {
 		return ExcelReaderUtil.loadTestData("testData/PhoenixTestData.xlsx", "LoginTestData", UserBean.class);
 	}
-	
+
 	@DataProvider(name = "CreateJobAPIExcelDataProvider", parallel = true)
 	public static Iterator<CreateJobPayload> createJobAPIExcelDataProvider() {
 		Iterator<CreateJobBean> createJobBeanIterator = ExcelReaderUtil.loadTestData("testData/PhoenixTestData.xlsx",
 				"CreateJobTestData", CreateJobBean.class);
-		
+
 		List<CreateJobPayload> createJobPayloadList = new ArrayList<CreateJobPayload>();
 		CreateJobBean tempBean;
 		CreateJobPayload tempPayload;
-		while(createJobBeanIterator.hasNext()) {
+		while (createJobBeanIterator.hasNext()) {
 			tempBean = createJobBeanIterator.next();
 			tempPayload = CreateJobBeanMapper.mapper(tempBean);
 			createJobPayloadList.add(tempPayload);
 		}
-		
+
+		return createJobPayloadList.iterator();
+	}
+
+	@DataProvider(name = "CreateJobAPIDBDataProvider", parallel = true)
+	public static Iterator<CreateJobPayload> createJobAPIDBDataProvider() {
+		List<CreateJobBean> createJobBeanList = CreateJobPayloadDataDao.getCreateJobPayloadData();
+		List<CreateJobPayload> createJobPayloadList = new ArrayList<CreateJobPayload>();
+
+		for (CreateJobBean createJobBean : createJobBeanList) {
+			CreateJobPayload createJobPayload = CreateJobBeanMapper.mapper(createJobBean);
+			createJobPayloadList.add(createJobPayload);
+		}
+
 		return createJobPayloadList.iterator();
 	}
 
