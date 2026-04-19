@@ -18,9 +18,11 @@ import com.api.utils.FakerDataGenerator;
 import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
 import com.database.dao.CustomerProductDao;
+import com.database.dao.MapJobProblemsDao;
 import com.database.model.CustomerAddressDBModel;
 import com.database.model.CustomerDBModel;
 import com.database.model.CustomerProductDBModel;
+import com.database.model.MapJobProblemsDBModel;
 
 import io.restassured.response.Response;
 
@@ -75,6 +77,12 @@ public class CreateJobAPIFakerTest {
 		Assert.assertEquals(customerAddressDataFromDB.getPincode(), createJobPayload.customer_address().pincode());
 		Assert.assertEquals(customerAddressDataFromDB.getCountry(), createJobPayload.customer_address().country());
 		Assert.assertEquals(customerAddressDataFromDB.getState(), createJobPayload.customer_address().state());
+		
+		int tr_job_head_id = response.then().extract().body().jsonPath().getInt("data.id");
+		MapJobProblemsDBModel problemsDataFromDB = MapJobProblemsDao.getProblemInfoFromDB(tr_job_head_id);
+		
+		Assert.assertEquals(problemsDataFromDB.getMst_problem_id(), createJobPayload.problems().get(0).id());
+		Assert.assertEquals(problemsDataFromDB.getRemark(), createJobPayload.problems().get(0).remark());
 		
 		int customerProductId = response.then().extract().body().jsonPath().getInt("data.tr_customer_product_id");
 		CustomerProductDBModel customerProductDataFromDB = CustomerProductDao.getCustomerProductInfo(customerProductId);
