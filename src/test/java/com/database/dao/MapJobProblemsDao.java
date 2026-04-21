@@ -34,7 +34,7 @@ public class MapJobProblemsDao {
 						resultSet.getInt("mst_problem_id"), resultSet.getString("remark"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return problemsDBModel;

@@ -7,6 +7,7 @@ import org.testng.Assert;
 import com.api.request.models.Customer;
 import com.database.model.CustomerAddressDBModel;
 import com.database.model.CustomerDBModel;
+import com.database.model.JobHeadDBModel;
 
 public class DemoDaoRunner {
 
@@ -21,9 +22,11 @@ public class DemoDaoRunner {
 //		
 //		Assert.assertEquals(customerDBModel.getFirst_name(), customer.first_name());
 		
-		CustomerAddressDBModel customerAddressDBModel =CustomerAddressDao.getCustomerAddressInfo(253930);
-		System.out.println(customerAddressDBModel);
-
+//		CustomerAddressDBModel customerAddressDBModel =CustomerAddressDao.getCustomerAddressInfo(253930);
+//		System.out.println(customerAddressDBModel);
+		
+		JobHeadDBModel jobHeadDBModel = JobHeadDao.getJobHeadDataFromDB(255963);
+		System.out.println(jobHeadDBModel);
 	}
 
 }

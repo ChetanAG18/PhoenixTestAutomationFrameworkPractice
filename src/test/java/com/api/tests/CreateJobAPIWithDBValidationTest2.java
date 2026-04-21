@@ -32,10 +32,12 @@ import com.api.response.model.CreateJobResponseModel;
 import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
 import com.database.dao.CustomerProductDao;
+import com.database.dao.JobHeadDao;
 import com.database.dao.MapJobProblemsDao;
 import com.database.model.CustomerAddressDBModel;
 import com.database.model.CustomerDBModel;
 import com.database.model.CustomerProductDBModel;
+import com.database.model.JobHeadDBModel;
 import com.database.model.MapJobProblemsDBModel;
 
 public class CreateJobAPIWithDBValidationTest2 {
@@ -50,8 +52,8 @@ public class CreateJobAPIWithDBValidationTest2 {
 		customer = new Customer("Chetan", "AG", "7090191755", "", "agchetan18@gmail.com", "");
 		customerAddress = new CustomerAddress("D 404", "Vasant Galaxy", "Mangalawar Pet", "Inorbit", "Laxmi Nagar",
 				"587311", "India", "Karnataka");
-		customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "83242811903253", "83242811903253",
-				"83242811903253", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(), Model.NEXUS_2_BLUE.getCode());
+		customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "78242811903352", "78242811903352",
+				"78242811903352", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(), Model.NEXUS_2_BLUE.getCode());
 		Problems problems = new Problems(Problem.SMARTPHONE_IS_RUNNING_SLOW.getCode(), "Battery Issue");
 		List<Problems> problemsList = new ArrayList<Problems>();
 		problemsList.add(problems);
@@ -111,6 +113,12 @@ public class CreateJobAPIWithDBValidationTest2 {
 		Assert.assertEquals(customerProductDataFromDB.getSerial_number(), customerProduct.serial_number());
 		Assert.assertEquals(customerProductDataFromDB.getDop(), customerProduct.dop());
 		Assert.assertEquals(customerProductDataFromDB.getPopurl(), customerProduct.popurl());
+		
+		JobHeadDBModel jobHeadDataFromDB = JobHeadDao.getJobHeadDataFromDB(customerId);
+		Assert.assertEquals(jobHeadDataFromDB.getMst_oem_id(), createJobPayload.mst_oem_id());
+		Assert.assertEquals(jobHeadDataFromDB.getMst_warrenty_status_id(), createJobPayload.mst_warrenty_status_id());		
+		Assert.assertEquals(jobHeadDataFromDB.getMst_platform_id(), createJobPayload.mst_platform_id());
+		Assert.assertEquals(jobHeadDataFromDB.getMst_service_location_id(), createJobPayload.mst_service_location_id());
 
 	}
 
