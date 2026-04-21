@@ -19,12 +19,10 @@ import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
 import com.database.dao.CustomerProductDao;
 import com.database.dao.JobHeadDao;
-import com.database.dao.MapJobProblemsDao;
 import com.database.model.CustomerAddressDBModel;
 import com.database.model.CustomerDBModel;
 import com.database.model.CustomerProductDBModel;
 import com.database.model.JobHeadDBModel;
-import com.database.model.MapJobProblemsDBModel;
 
 import io.restassured.response.Response;
 

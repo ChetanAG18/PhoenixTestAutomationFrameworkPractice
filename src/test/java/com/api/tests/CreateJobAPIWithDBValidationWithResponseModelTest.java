@@ -40,7 +40,7 @@ import com.database.model.CustomerProductDBModel;
 import com.database.model.JobHeadDBModel;
 import com.database.model.MapJobProblemsDBModel;
 
-public class CreateJobAPIWithDBValidationTest2 {
+public class CreateJobAPIWithDBValidationWithResponseModelTest {
 
 	private CreateJobPayload createJobPayload;
 	private Customer customer;
