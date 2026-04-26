@@ -5,14 +5,12 @@ import java.sql.SQLException;
 
 import com.api.utils.ConfigManager;
 import com.api.utils.EnvUtil;
+import com.api.utils.VaultDBConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class DatabaseManager {
 
-	private static final String DB_URL = EnvUtil.getValue("DB_URL");
-	private static final String DB_USERNAME = EnvUtil.getValue("DB_USERNAME");
-	private static final String DB_PASSWORD = EnvUtil.getValue("DB_PASSWORD");
 	private static Connection connection;
 
 	private static HikariConfig hikariConfig;
@@ -26,6 +24,31 @@ public class DatabaseManager {
 	private static final int MAX_LIFE_TIME_IN_MINS = Integer
 			.parseInt(ConfigManager.getProperty("MAX_LIFE_TIME_IN_MINS"));
 	private static final String POOL_NAME = ConfigManager.getProperty("POOL_NAME");
+
+	private static boolean isVaultUp = true;
+	private static final String DB_URL = loadSecret("DB_URL");
+	private static final String DB_USERNAME = loadSecret("DB_USERNAME");
+	private static final String DB_PASSWORD = loadSecret("DB_PASSWORD");
+
+	public static String loadSecret(String key) {
+		String value = null;
+		
+		if (isVaultUp) {
+			value = VaultDBConfig.getSecret(key);
+
+			if (value == null) {
+				System.err.println("Vault is Down!! or some issue with Vault");
+				isVaultUp = false;
+			} else {
+				System.out.println("READING VALUE FOM VAULT.....");
+				return value;
+			}
+		}
+
+		System.out.println("READING VALUE FOM ENV.....");
+		value = EnvUtil.getValue(key);
+		return value;
+	}
 
 	private DatabaseManager() {
 
