@@ -1,10 +1,14 @@
 package com.api.utils;
 
-import static io.restassured.RestAssured.*;
+import static com.api.constants.Role.ENG;
+import static com.api.constants.Role.FD;
+import static com.api.constants.Role.QC;
+import static com.api.constants.Role.SUP;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
-import static org.hamcrest.Matchers.*;
-
-import static com.api.constants.Role.*;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.api.constants.Role;
 import com.api.request.models.UserCredentials;
@@ -13,11 +17,17 @@ import io.restassured.http.ContentType;
 
 public class AuthTokenProvider {
 	
+	private static Map<Role, String> tokenCahce = new ConcurrentHashMap<Role, String>();
+	
 	private AuthTokenProvider() {
 		
 	}
 
 	public static String getToken(Role role) {
+		
+		if(tokenCahce.containsKey(role)) {
+			return tokenCahce.get(role);
+		}
 		
 		UserCredentials userCredentials = null;
 		if (role == FD) {
@@ -39,6 +49,8 @@ public class AuthTokenProvider {
 		.statusCode(200)
 		.body("message", equalTo("Success"))
 		.extract().body().jsonPath().getString("data.token");
+		
+		tokenCahce.put(role, token);
 		
 		return token;
 	}
