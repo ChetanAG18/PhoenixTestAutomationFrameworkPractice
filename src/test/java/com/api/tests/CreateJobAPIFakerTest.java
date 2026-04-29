@@ -1,9 +1,7 @@
 package com.api.tests;
 
 import static com.api.constants.Role.FD;
-import static com.api.utils.SpecUtil.requestSpecWithAuth;
 import static com.api.utils.SpecUtil.responseSpec_OK;
-import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
@@ -14,6 +12,7 @@ import org.testng.annotations.Test;
 
 import com.api.request.models.CreateJobPayload;
 import com.api.request.models.Customer;
+import com.api.services.JobService;
 import com.api.utils.FakerDataGenerator;
 import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
@@ -29,11 +28,13 @@ import io.restassured.response.Response;
 public class CreateJobAPIFakerTest {
 	public static final String COUNTRY = "India";
 	private CreateJobPayload createJobPayload;
+	private JobService jobService ;
 	
-	@BeforeMethod(description = "Creating createjob api request paylaod")
+	@BeforeMethod(description = "Creating createjob api request paylaod and instantiating the JobService object")
 	public void setUp() {
 
 		createJobPayload = FakerDataGenerator.generateFakeCreateJobData();
+		jobService = new JobService();
 
 	}
 	
@@ -41,10 +42,7 @@ public class CreateJobAPIFakerTest {
 	public void createJobAPITest() {
 		
 		Response response =
-		given()
-			.spec(requestSpecWithAuth(FD, createJobPayload))
-		.when()
-			.post("/job/create")
+		jobService.create(FD, createJobPayload)
 		.then()
 			.spec(responseSpec_OK())
 			.body("message", equalTo("Job created successfully. "))
