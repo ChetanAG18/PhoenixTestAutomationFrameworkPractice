@@ -1,9 +1,7 @@
 package com.api.tests;
 
 import static com.api.constants.Role.FD;
-import static com.api.utils.SpecUtil.requestSpecWithAuth;
-import static com.api.utils.SpecUtil.responseSpec_OK;
-import static io.restassured.RestAssured.given;
+import static com.api.utils.SpecUtil.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
@@ -11,16 +9,23 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.notNullValue;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.api.services.MasterService;
 
 public class MasterAPITest {
 	
+	private MasterService masterService;
+	
+	@BeforeMethod(description = "Instanting the MasterService object")
+	public void setup() {
+		masterService = new MasterService();
+	}
+	
 	@Test(description = "Verify if the master API response is giving correct response", groups = {"api", "regression", "smoke"})
 	public void masterAPITest() {
-		given()
-			.spec(requestSpecWithAuth(FD))
-		.when()
-			.post("master")
+		masterService.master(FD)
 		.then()
 			.spec(responseSpec_OK())
 			.body("message", equalTo("Success"))
@@ -39,11 +44,8 @@ public class MasterAPITest {
 	
 	@Test(description = "Verify if the master API response is giving correct status code for invalid token", groups = {"api", "negative", "regression", "smoke"})
 	public void invalidTokenMasterAPITest() {
-		given()
-			.spec(requestSpecWithAuth(FD))
-		.when()
-			.post("master")
+		masterService.masterWithNoAuth()
 		.then()
-			.spec(responseSpec_OK());
+			.spec(responseSpec_TEXT(401));
 	}
 }

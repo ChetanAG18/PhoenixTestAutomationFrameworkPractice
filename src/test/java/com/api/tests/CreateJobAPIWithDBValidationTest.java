@@ -2,9 +2,7 @@ package com.api.tests;
 
 import static com.api.constants.Role.FD;
 import static com.api.utils.DateTimeUtil.getTimeWithDaysAgo;
-import static com.api.utils.SpecUtil.requestSpecWithAuth;
 import static com.api.utils.SpecUtil.responseSpec_OK;
-import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
@@ -28,6 +26,7 @@ import com.api.request.models.Customer;
 import com.api.request.models.CustomerAddress;
 import com.api.request.models.CustomerProduct;
 import com.api.request.models.Problems;
+import com.api.services.JobService;
 import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
 import com.database.dao.CustomerProductDao;
@@ -49,14 +48,15 @@ public class CreateJobAPIWithDBValidationTest {
 	private CustomerProduct customerProduct;
 	private Problems problems;
 	private List<Problems> problemsList;
+	private JobService jobService ;
 
-	@BeforeMethod(description = "Creating createjob api request paylaod")
+	@BeforeMethod(description = "Creating createjob api request paylaod and instantiating the JobService object")
 	public void setUp() {
 		customer = new Customer("Chetan", "AG", "7090191755", "", "agchetan18@gmail.com", "");
 		customerAddress = new CustomerAddress("D 404", "Vasant Galaxy", "Mangalawar Pet", "Inorbit",
 				"Laxmi Nagar", "587311", "India", "Karnataka");
-		customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "83242811905977",
-				"83242811905977", "83242811905977", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(),
+		customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "83246811905959",
+				"83246811905959", "83246811905959", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(),
 				Model.NEXUS_2_BLUE.getCode());
 		problems = new Problems(Problem.SMARTPHONE_IS_RUNNING_SLOW.getCode(), "Battery Issue");
 		problemsList = new ArrayList<Problems>();
@@ -65,6 +65,8 @@ public class CreateJobAPIWithDBValidationTest {
 		createJobPayload = new CreateJobPayload(ServiceLocation.SERVICE_LOCATION_A.getCode(),
 				Platform.FRONT_DESK.getCode(), WarrantyStatus.IN_WARRENTY.getCode(), Oem.GOOGLE.getCode(), customer,
 				customerAddress, customerProduct, problemsList);
+		
+		jobService = new JobService();
 
 	}
 
@@ -72,10 +74,12 @@ public class CreateJobAPIWithDBValidationTest {
 			"smoke" })
 	public void createJobAPITest() {
 
-		Response response = given().spec(requestSpecWithAuth(FD, createJobPayload)).when().post("/job/create").then()
+		Response response = jobService.create(FD, createJobPayload)
+				.then()
 				.spec(responseSpec_OK()).body("message", equalTo("Job created successfully. "))
 				.body(matchesJsonSchemaInClasspath("responseSchema/CreateJobAPIResponseSchema.json"))
-				.body("data.mst_service_location_id", equalTo(1)).body("data.job_number", startsWith("JOB_")).extract()
+				.body("data.mst_service_location_id", equalTo(1)).body("data.job_number", startsWith("JOB_"))
+				.extract()
 				.response();
 		
 		int customerId = response.then().extract().body().jsonPath().getInt("data.tr_customer_id");
