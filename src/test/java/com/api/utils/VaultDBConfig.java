@@ -18,7 +18,7 @@ public class VaultDBConfig {
 
 	static {
 		try {
-			vaultConfig = new VaultConfig().address("http://13.238.142.206:8200").token("root").build();
+			vaultConfig = new VaultConfig().address(System.getenv("VAULT_SERVER")).token(System.getenv("VAULT_TOKEN")).build();
 		} catch (VaultException e) {
 			e.printStackTrace();
 		}
