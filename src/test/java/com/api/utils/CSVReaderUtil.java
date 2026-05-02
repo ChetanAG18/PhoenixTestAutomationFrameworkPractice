@@ -5,18 +5,24 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class CSVReaderUtil {
+	
+	private static final Logger LOGGER = LogManager.getLogger(CSVReaderUtil.class);
 
 	private CSVReaderUtil() {
 
 	}
 
 	public static <T> Iterator<T> loadCSV(String pathToCSVFile, Class<T> bean) {
-
+		
+		LOGGER.info("Loading the csv file from the path {}", pathToCSVFile);
 		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathToCSVFile);
 		InputStreamReader isr = new InputStreamReader(is);
 		CSVReader csvReader = new CSVReader(isr);
@@ -26,6 +32,8 @@ public class CSVReaderUtil {
 				.withIgnoreEmptyLine(true).build();
 
 		List<T> list = csvToBean.parse();
+		
+		LOGGER.info("Converting the csv to bean class {}", bean);
 
 		return list.iterator();
 	}
