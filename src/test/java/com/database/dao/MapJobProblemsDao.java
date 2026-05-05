@@ -5,10 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.database.DatabaseManager;
 import com.database.model.MapJobProblemsDBModel;
 
 public class MapJobProblemsDao {
+	
+	private static final Logger LOGGER = LogManager.getLogger(MapJobProblemsDao.class);
 
 	private MapJobProblemsDao() {
 
@@ -25,15 +30,18 @@ public class MapJobProblemsDao {
 		MapJobProblemsDBModel problemsDBModel = null;
 
 		try {
+			LOGGER.info("Getting the connection from the Database Manager");
 			conn = DatabaseManager.getConnection();
 			preparedStatement = conn.prepareStatement(PROBLEMS_QUERY);
 			preparedStatement.setInt(1, tr_job_head_id);
+			LOGGER.info("Executing the SQL Query {}", PROBLEMS_QUERY);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				problemsDBModel = new MapJobProblemsDBModel(resultSet.getInt("id"), resultSet.getInt("tr_job_head_id"),
 						resultSet.getInt("mst_problem_id"), resultSet.getString("remark"));
 			}
 		} catch (SQLException e) {
+			LOGGER.error("Cannot convert the Result Set to the MapJobProblemsDBModel", e);
 			System.err.println(e.getMessage());
 		}
 
