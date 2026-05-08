@@ -5,18 +5,20 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.Matchers.equalTo;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import com.api.request.models.UserCredentials;
 import com.api.services.AuthService;
+import com.dataproviders.api.bean.UserBean;
 
+@Listeners(com.listeners.APITestListener.class)
 public class LoginAPITest {
-	private UserCredentials userCredentials;
+	private UserBean userBean;
 	private static AuthService authService;
 	
 	@BeforeMethod(description = "Create the payload for the Login API and instanting the AuthService object")
 	public void setUp() {
-		userCredentials = new UserCredentials("iamfd", "password");
+		userBean = new UserBean("iamfd", "password");
 		authService = new AuthService();
 
 	}
@@ -24,7 +26,7 @@ public class LoginAPITest {
 	@Test(description = "Verifying if login api is working for FD user", groups = {"api", "regression", "smoke"})
 	public void loginAPITest() {
 		
-		authService.login(userCredentials)
+		authService.login(userBean)
 		.then()
 			.spec(responseSpec_OK())
 			.body("message", equalTo("Success"))

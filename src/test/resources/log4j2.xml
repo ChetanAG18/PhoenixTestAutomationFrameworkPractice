@@ -1,0 +1,20 @@
+<configuration status = "warn">
+
+	<appenders>
+		<console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d [%t] %highlight{%5p} %c::%M():%L - %m%n"></PatternLayout>
+		</console>
+		
+		<file name="FileAppender" fileName="logs/application.log">
+			<PatternLayout pattern="%d [%t] %highlight{%5p} %c::%M():%L - %m%n"></PatternLayout>
+		</file>
+	</appenders>
+		
+	<loggers>
+		<root level = "INFO">
+			<AppenderRef ref="Console"></AppenderRef>
+			<AppenderRef ref="FileAppender"></AppenderRef>
+		</root>	
+	</loggers>
+
+</configuration>
