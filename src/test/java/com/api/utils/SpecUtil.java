@@ -21,10 +21,7 @@ public class SpecUtil {
 		.setBaseUri(getProperty("BASE_URI"))
 		.setContentType(JSON)
 		.setAccept(JSON)
-		.log(LogDetail.URI)
-		.log(LogDetail.METHOD)
-		.log(LogDetail.HEADERS)
-		.log(LogDetail.BODY)
+		.addFilter(new SensitiveDataFilter())
 		.build();
 		
 		return requestSpecification;
@@ -37,9 +34,6 @@ public class SpecUtil {
 		.setAccept(JSON)
 		.setBody(payload)
 		.addFilter(new SensitiveDataFilter())
-		.log(LogDetail.URI)
-		.log(LogDetail.METHOD)
-		.log(LogDetail.HEADERS)
 		.build();
 		
 		return requestSpecification;
@@ -52,10 +46,7 @@ public class SpecUtil {
 				.setContentType(JSON)
 				.setAccept(JSON)
 				.addHeader("Authorization", getToken(role))
-				.log(LogDetail.URI)
-				.log(LogDetail.METHOD)
-				.log(LogDetail.HEADERS)
-				.log(LogDetail.BODY)
+				.addFilter(new SensitiveDataFilter())
 				.build();
 				
 				return requestSpecification;
@@ -68,10 +59,7 @@ public class SpecUtil {
 				.setAccept(JSON)
 				.addHeader("Authorization", getToken(role))
 				.setBody(payload)
-				.log(LogDetail.URI)
-				.log(LogDetail.METHOD)
-				.log(LogDetail.HEADERS)
-				.log(LogDetail.BODY)
+				.addFilter(new SensitiveDataFilter())
 				.build();
 				
 				return requestSpecification;
@@ -90,7 +78,6 @@ public class SpecUtil {
 	public static ResponseSpecification responseSpec_JSON(int statusCode) {
 		ResponseSpecification responseSpecification =  new ResponseSpecBuilder()
 		.expectContentType(JSON)
-		.log(LogDetail.ALL)
 		.expectStatusCode(statusCode)
 		.expectResponseTime(lessThan(2000L))
 		.build();
@@ -100,7 +87,6 @@ public class SpecUtil {
 	
 	public static ResponseSpecification responseSpec_TEXT(int statusCode) {
 		ResponseSpecification responseSpecification =  new ResponseSpecBuilder()
-		.log(LogDetail.ALL)
 		.expectStatusCode(statusCode)
 		.expectResponseTime(lessThan(2000L))
 		.build();
