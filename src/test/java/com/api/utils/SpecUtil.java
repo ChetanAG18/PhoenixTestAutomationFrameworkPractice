@@ -3,6 +3,7 @@ package com.api.utils;
 import static org.hamcrest.Matchers.*;
 
 import com.api.constants.Role;
+import com.api.filter.SensitiveDataFilter;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -35,10 +36,10 @@ public class SpecUtil {
 		.setContentType(JSON)
 		.setAccept(JSON)
 		.setBody(payload)
+		.addFilter(new SensitiveDataFilter())
 		.log(LogDetail.URI)
 		.log(LogDetail.METHOD)
 		.log(LogDetail.HEADERS)
-		.log(LogDetail.BODY)
 		.build();
 		
 		return requestSpecification;
@@ -79,7 +80,6 @@ public class SpecUtil {
 	public static ResponseSpecification responseSpec_OK() {
 		ResponseSpecification responseSpecification =  new ResponseSpecBuilder()
 		.expectContentType(JSON)
-		.log(LogDetail.ALL)
 		.expectStatusCode(200)
 		.expectResponseTime(lessThan(2000L))
 		.build();
