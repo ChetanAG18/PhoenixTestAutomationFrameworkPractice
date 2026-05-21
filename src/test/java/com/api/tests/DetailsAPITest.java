@@ -5,11 +5,13 @@ import static com.api.utils.SpecUtil.responseSpec_OK;
 
 import static org.hamcrest.Matchers.*;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.api.request.models.Details;
 import com.api.services.DashboardService;
 
+@Listeners(com.listeners.APITestListener.class)
 public class DetailsAPITest {
 	
 	private Details detailsPayload;
