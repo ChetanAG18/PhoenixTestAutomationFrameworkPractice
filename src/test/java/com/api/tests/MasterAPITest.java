@@ -15,7 +15,16 @@ import org.testng.annotations.Test;
 
 import com.api.services.MasterService;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+
 @Listeners(com.listeners.APITestListener.class)
+@Epic("Job Management")
+@Feature("Master API")
 public class MasterAPITest {
 	
 	private MasterService masterService;
@@ -25,6 +34,9 @@ public class MasterAPITest {
 		masterService = new MasterService();
 	}
 	
+	@Story("Master API should bring OEM details, Problem type, Warranty Status")
+	@Description("Verify if the master API response is giving correct response")
+	@Severity(SeverityLevel.BLOCKER)
 	@Test(description = "Verify if the master API response is giving correct response", groups = {"api", "regression", "smoke"})
 	public void masterAPITest() {
 		masterService.master(FD)
