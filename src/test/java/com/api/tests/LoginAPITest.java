@@ -23,9 +23,9 @@ import io.qameta.allure.Story;
 @Feature("Authentication")
 public class LoginAPITest {
 	private UserBean userBean;
-	private static AuthService authService;
+	private AuthService authService;
 	
-	@BeforeMethod(description = "Create the payload for the Login API and instanting the AuthService object")
+	@BeforeMethod(description = "Create the payload for the Login API and instantiating the AuthService object")
 	public void setUp() {
 		userBean = new UserBean("iamfd", "password");
 		authService = new AuthService();

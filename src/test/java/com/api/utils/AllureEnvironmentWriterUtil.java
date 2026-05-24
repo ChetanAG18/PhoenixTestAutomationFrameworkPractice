@@ -24,7 +24,7 @@ public class AllureEnvironmentWriterUtil {
 		prop.setProperty("Base URI", ConfigManager.getProperty("BASE_URI"));
 
 		prop.setProperty("Operating System", System.getProperty("os.name"));
-		prop.setProperty("Operating System", System.getProperty("os.version"));
+		prop.setProperty("Operating System Version", System.getProperty("os.version"));
 		prop.setProperty("Java Version", System.getProperty("java.version"));
 
 		FileWriter fw = null;

@@ -16,6 +16,8 @@ import com.api.request.models.CustomerProduct;
 import com.api.request.models.Problems;
 import com.github.javafaker.Faker;
 
+import io.qameta.allure.Step;
+
 public class FakerDataGenerator {
 
 	private static Faker faker = new Faker(new Locale("en-IND"));
@@ -36,6 +38,7 @@ public class FakerDataGenerator {
 
 	}
 
+	@Step("Generating the fake payload for create job api")
 	public static CreateJobPayload generateFakeCreateJobData() {
 		
 		LOGGER.info("Generating the fake payload for create job api");
@@ -50,6 +53,7 @@ public class FakerDataGenerator {
 		return createJobPayload;
 	}
 	
+	@Step("Generating the multiple fake payload for create job api")
 	public static Iterator<CreateJobPayload> generateFakeCreateJobData(int count) {
 		
 		LOGGER.info("Generating the fake {} payloads for create job api", count);
@@ -67,6 +71,7 @@ public class FakerDataGenerator {
 		return createJobPayloadList.iterator();
 	}
 
+	@Step("Generating the fake problem list data for create job api")
 	private static List<Problems> generateFakeProblemsList() {
 		LOGGER.info("Generating the fake problem list for create job api payload");
 		int count = RANDOM.nextInt(3) + 1;
@@ -83,6 +88,7 @@ public class FakerDataGenerator {
 		return problemList;
 	}
 
+	@Step("Generating the fake customer product data for create job api")
 	private static CustomerProduct generateFakeCustomerProduct() {
 		LOGGER.info("Generating the fake customer product info for create job api payload");
 		String dop = DateTimeUtil.getTimeWithDaysAgo(10);
@@ -93,6 +99,7 @@ public class FakerDataGenerator {
 		return customerProduct;
 	}
 
+	@Step("Generating the fake customer address data for create job api")
 	private static CustomerAddress generateFakeCustomerAddressData() {
 		LOGGER.info("Generating the fake customer address info for create job api payload");
 		String flatNumber = faker.numerify("###");
@@ -108,6 +115,7 @@ public class FakerDataGenerator {
 		return customerAddress;
 	}
 
+	@Step("Generating the fake customer data for create job api")
 	private static Customer generateFakeCustomerData() {
 		LOGGER.info("Generating the fake customer info for create job api payload");
 		String firstName = faker.name().firstName();
