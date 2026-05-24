@@ -11,18 +11,30 @@ import org.testng.annotations.Test;
 import com.api.services.AuthService;
 import com.dataproviders.api.bean.UserBean;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+
 @Listeners(com.listeners.APITestListener.class)
+@Epic("User Management")
+@Feature("Authentication")
 public class LoginAPITest {
 	private UserBean userBean;
-	private static AuthService authService;
+	private AuthService authService;
 	
-	@BeforeMethod(description = "Create the payload for the Login API and instanting the AuthService object")
+	@BeforeMethod(description = "Create the payload for the Login API and instantiating the AuthService object")
 	public void setUp() {
 		userBean = new UserBean("iamfd", "password");
 		authService = new AuthService();
 
 	}
 	
+	@Story("Valid User should be able to login into the System")
+	@Description("Verifying if login api is working for FD user")
+	@Severity(SeverityLevel.BLOCKER)
 	@Test(description = "Verifying if login api is working for FD user", groups = {"api", "regression", "smoke"})
 	public void loginAPITest() {
 		

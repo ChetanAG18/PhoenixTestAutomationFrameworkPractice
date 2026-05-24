@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 import com.database.DatabaseManager;
 import com.database.model.JobHeadDBModel;
 
+import io.qameta.allure.Step;
+
 public class JobHeadDao {
 	
 	private static final Logger LOGGER = LogManager.getLogger(JobHeadDao.class);
@@ -23,6 +25,7 @@ public class JobHeadDao {
 			select * from tr_job_head where tr_customer_id = ?
 			""";
 
+	@Step("Retrieving the job head information from database for the specific customer id")
 	public static JobHeadDBModel getJobHeadDataFromDB(int tr_customer_id) {
 		Connection conn;
 		PreparedStatement preparedStatement;
